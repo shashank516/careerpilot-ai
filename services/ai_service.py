@@ -31,8 +31,12 @@ def _ask(instruction: str, payload: str, fallback: dict[str, Any]) -> dict[str, 
     client = _client()
     if not client:
         return fallback
+    api_key = _setting("GROQ_API_KEY") or _setting("OPENAI_API_KEY")
+    model = _setting("GROQ_MODEL") or (
+        "llama-3.3-70b-versatile" if api_key.startswith("gsk_") else _setting("OPENAI_MODEL") or "gpt-4o-mini"
+    )
     response = client.chat.completions.create(
-        model=_setting("GROQ_MODEL") or _setting("OPENAI_MODEL") or "llama-3.3-70b-versatile",
+        model=model,
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[{"role": "system", "content": instruction}, {"role": "user", "content": payload}],
