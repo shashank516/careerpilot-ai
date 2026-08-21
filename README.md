@@ -20,6 +20,13 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app works in demo mode without an API key. To enable live AI responses, copy `.env.example` to `.env` and replace the placeholder with a newly created API key.
+The app works in demo mode without an API key. To enable live AI responses locally, create `.env` and add a newly created Groq key:
+
+```env
+GROQ_API_KEY=your_groq_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+```
+
+For Streamlit Cloud, add the same values under the app's **Settings -> Secrets**. Do not upload `.env`.
 
 Never commit `.env` or place a real API key in `.env.example`.

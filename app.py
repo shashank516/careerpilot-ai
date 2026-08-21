@@ -12,6 +12,15 @@ from services.resume_export import resume_to_pdf
 load_dotenv(dotenv_path=".env")
 st.set_page_config(page_title="CareerPilot AI", page_icon="CP", layout="wide")
 
+
+def ai_configured() -> bool:
+    if os.getenv("OPENAI_API_KEY") or os.getenv("GROQ_API_KEY"):
+        return True
+    try:
+        return bool(st.secrets.get("OPENAI_API_KEY") or st.secrets.get("GROQ_API_KEY"))
+    except (FileNotFoundError, KeyError):
+        return False
+
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
@@ -42,7 +51,7 @@ with st.sidebar:
     appearance = st.radio("Appearance", ["System", "Light", "Dark"], horizontal=True, key="appearance")
     mode = st.radio("Go to", ["Build resume", "Analyze & match", "Application writer", "Mock interview"])
     st.divider()
-    if os.getenv("OPENAI_API_KEY"):
+    if ai_configured():
         st.success("Live AI mode enabled")
     else:
         st.warning("Demo mode: add OPENAI_API_KEY to .env")

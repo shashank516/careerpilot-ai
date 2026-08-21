@@ -3,8 +3,19 @@ import os
 from typing import Any
 
 
+def _setting(name: str, default: str = "") -> str:
+    value = os.getenv(name, "")
+    if value:
+        return value
+    try:
+        import streamlit as st
+        return str(st.secrets.get(name, default))
+    except (FileNotFoundError, ImportError, KeyError):
+        return default
+
+
 def _client():
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = _setting("GROQ_API_KEY") or _setting("OPENAI_API_KEY")
     if not api_key:
         return None
     try:
@@ -21,7 +32,7 @@ def _ask(instruction: str, payload: str, fallback: dict[str, Any]) -> dict[str, 
     if not client:
         return fallback
     response = client.chat.completions.create(
-        model=os.getenv("OPENAI_MODEL", "llama-3.3-70b-versatile" if os.getenv("OPENAI_API_KEY", "").startswith("gsk_") else "gpt-4o-mini"),
+        model=_setting("GROQ_MODEL") or _setting("OPENAI_MODEL") or "llama-3.3-70b-versatile",
         temperature=0.2,
         response_format={"type": "json_object"},
         messages=[{"role": "system", "content": instruction}, {"role": "user", "content": payload}],
