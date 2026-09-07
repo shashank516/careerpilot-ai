@@ -34,25 +34,26 @@ def ai_configured() -> bool:
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
-    :root { --ink: #14213d; --coral: #ef8354; --mint: #d9f0e3; --paper: #fffdf7; --line: rgba(20,33,61,.12); --muted: #627086; }
+    :root { --ink: #26352f; --coral: #b86f57; --mint: #dfece3; --paper: #f5eee4; --line: rgba(38,53,47,.14); --muted: #68766e; }
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
-    .stApp { background: linear-gradient(135deg, #fffdf7 0%, #eef7f2 52%, #f9e9dc 100%); }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
     h1 { font-size: clamp(2.5rem, 5vw, 4.6rem) !important; line-height: .98 !important; letter-spacing: 0 !important; margin: .25rem 0 .75rem !important; }
     h2 { font-size: 1.65rem !important; letter-spacing: 0 !important; }
     h3 { font-size: 1.1rem !important; letter-spacing: 0 !important; }
     .hero { padding: .8rem 0 1.6rem; max-width: 860px; }
-    .eyebrow { color: #c8562b; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
+    .eyebrow { color: #a95e49; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
     .hero-copy { color: var(--muted); font-size: 1.08rem; max-width: 650px; line-height: 1.6; }
-    .section-kicker { color: #c8562b; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
+    .section-kicker { color: #a95e49; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
     .module-card { background: rgba(255,255,255,.64); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-height: 118px; box-shadow: 0 12px 30px rgba(20,33,61,.05); }
     .module-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin-bottom: .35rem; }
     .module-card span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
     .panel { background: rgba(255,255,255,.75); border: 1px solid var(--line); padding: 1.25rem; border-radius: 10px; box-shadow: 0 14px 34px rgba(20,33,61,.06); }
-    .metric { background: #14213d; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(20,33,61,.12); }
-    .metric span { color: #b8c7d9; font-size: .78rem; }
+    .metric { background: #30483e; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(38,53,47,.12); }
+    .metric span { color: #dce9df; font-size: .78rem; }
     .metric strong { font-size: 1.8rem; display: block; }
-    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; }
+    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; border-color: rgba(38,53,47,.16); }
+    [data-testid="stSidebar"] .stButton > button { text-align: left; padding-left: .9rem; }
     [data-testid="stForm"] { background: rgba(255,255,255,.48); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem; }
     [data-testid="stExpander"] { border-color: var(--line); background: rgba(255,255,255,.38); }
     [data-testid="stSidebar"] h3 { margin-top: .45rem; }
@@ -64,7 +65,7 @@ if "resume" not in st.session_state:
 if "interview" not in st.session_state:
     st.session_state.interview = {"question": "Tell me about yourself and the work you are most proud of.", "answers": []}
 
-st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>Make your next move<br>feel more prepared.</h1><p class="hero-copy">CareerPilot turns your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
 
 card_cols = st.columns(4)
 for column, title, detail in zip(card_cols, ["Build", "Match", "Apply", "Practice"], ["Create a resume from your story.", "Find gaps against a real role.", "Write a focused application pack.", "Train with role-specific questions."]):
@@ -75,7 +76,19 @@ with st.sidebar:
     st.caption("A focused workspace for your next opportunity.")
     appearance = st.radio("Appearance", ["System", "Light", "Dark"], horizontal=True, key="appearance")
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
-    mode = st.radio("Choose a workflow", ["Build resume", "Analyze & match", "Application writer", "Mock interview"], label_visibility="collapsed")
+    workflows = [
+        ("Build resume", "01  Build your story"),
+        ("Analyze & match", "02  Compare a role"),
+        ("Application writer", "03  Write an application"),
+        ("Mock interview", "04  Practice answers"),
+    ]
+    if "mode" not in st.session_state:
+        st.session_state.mode = "Build resume"
+    for workflow, button_label in workflows:
+        if st.button(button_label, key=f"nav_{workflow}", type="primary" if st.session_state.mode == workflow else "secondary", use_container_width=True):
+            st.session_state.mode = workflow
+            st.rerun()
+    mode = st.session_state.mode
     st.divider()
     if ai_configured():
         st.success("Live AI mode enabled")
@@ -89,16 +102,16 @@ if appearance == "Dark":
     """
 elif appearance == "Light":
     theme_css = """
-    :root { --ink: #14213d; --muted: #52627a; --surface: rgba(255,255,255,.82); --surface-2: #ffffff; --line: rgba(20,33,61,.16); --accent: #c8562b; }
-    .stApp { background: linear-gradient(135deg, #fffdf7 0%, #eef7f2 52%, #f9e9dc 100%); }
+    :root { --ink: #26352f; --muted: #68766e; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,53,47,.15); --accent: #a95e49; }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
     """
 else:
     theme_css = """
-    :root { --ink: #14213d; --muted: #52627a; --surface: rgba(255,255,255,.82); --surface-2: #ffffff; --line: rgba(20,33,61,.16); --accent: #c8562b; }
-    .stApp { background: linear-gradient(135deg, #fffdf7 0%, #eef7f2 52%, #f9e9dc 100%); }
+    :root { --ink: #26352f; --muted: #68766e; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,53,47,.15); --accent: #a95e49; }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
     @media (prefers-color-scheme: dark) {
-        :root { --ink: #f4f7fb; --muted: #b7c3d4; --surface: rgba(23,35,56,.9); --surface-2: #22314b; --line: #3b4b64; --accent: #ff9b70; }
-        .stApp { background: linear-gradient(135deg, #101927 0%, #18283a 52%, #302b35 100%); }
+        :root { --ink: #f4f1eb; --muted: #c3cec5; --surface: rgba(36,52,45,.92); --surface-2: #30483e; --line: #52665a; --accent: #e0a184; }
+        .stApp { background: linear-gradient(135deg, #202d28 0%, #2c4037 52%, #493b39 100%); }
     }
     """
 
