@@ -34,9 +34,9 @@ def ai_configured() -> bool:
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
-    :root { --ink: #26352f; --coral: #b86f57; --mint: #dfece3; --paper: #f5eee4; --line: rgba(38,53,47,.14); --muted: #68766e; }
+    :root { --ink: #263747; --coral: #b86f57; --mint: #dce8f0; --paper: #f5eee4; --line: rgba(38,55,71,.14); --muted: #687785; }
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
     h1 { font-size: clamp(2.5rem, 5vw, 4.6rem) !important; line-height: .98 !important; letter-spacing: 0 !important; margin: .25rem 0 .75rem !important; }
     h2 { font-size: 1.65rem !important; letter-spacing: 0 !important; }
@@ -49,8 +49,8 @@ st.markdown("""
     .module-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin-bottom: .35rem; }
     .module-card span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
     .panel { background: rgba(255,255,255,.75); border: 1px solid var(--line); padding: 1.25rem; border-radius: 10px; box-shadow: 0 14px 34px rgba(20,33,61,.06); }
-    .metric { background: #30483e; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(38,53,47,.12); }
-    .metric span { color: #dce9df; font-size: .78rem; }
+    .metric { background: #334e64; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(38,55,71,.12); }
+    .metric span { color: #dce8f0; font-size: .78rem; }
     .metric strong { font-size: 1.8rem; display: block; }
     .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; border-color: rgba(38,53,47,.16); }
     [data-testid="stSidebar"] .stButton > button { text-align: left; padding-left: .9rem; }
@@ -102,16 +102,16 @@ if appearance == "Dark":
     """
 elif appearance == "Light":
     theme_css = """
-    :root { --ink: #26352f; --muted: #68766e; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,53,47,.15); --accent: #a95e49; }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
+    :root { --ink: #263747; --muted: #687785; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,55,71,.15); --accent: #a95e49; }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
     """
 else:
     theme_css = """
-    :root { --ink: #26352f; --muted: #68766e; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,53,47,.15); --accent: #a95e49; }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #edf3eb 54%, #f1e5dc 100%); }
+    :root { --ink: #263747; --muted: #687785; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,55,71,.15); --accent: #a95e49; }
+    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
     @media (prefers-color-scheme: dark) {
-        :root { --ink: #f4f1eb; --muted: #c3cec5; --surface: rgba(36,52,45,.92); --surface-2: #30483e; --line: #52665a; --accent: #e0a184; }
-        .stApp { background: linear-gradient(135deg, #202d28 0%, #2c4037 52%, #493b39 100%); }
+        :root { --ink: #f4f1eb; --muted: #c3ccd4; --surface: rgba(36,49,62,.92); --surface-2: #334e64; --line: #536879; --accent: #e0a184; }
+        .stApp { background: linear-gradient(135deg, #202b34 0%, #2d4050 52%, #493b39 100%); }
     }
     """
 
