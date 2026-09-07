@@ -35,28 +35,28 @@ def ai_configured() -> bool:
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
-    :root { --ink: #403B35; --coral: #B98276; --mint: #E5DCCB; --paper: #F5F0E6; --line: #D8CBB8; --muted: #766D64; --primary: #87966F; --secondary: #AFAF91; }
+    :root { --ink: #101723; --lime: #D8FF51; --coral: #FF7757; --paper: #F6F1E7; --mist: #DCE4DF; --line: rgba(246,241,231,.18); --muted: #DCE4DF; }
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
-    .stApp { background: #F5F0E6; }
+    .stApp { background: #101723; }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
     h1 { font-size: clamp(2.5rem, 5vw, 4.6rem) !important; line-height: .98 !important; letter-spacing: 0 !important; margin: .25rem 0 .75rem !important; }
     h2 { font-size: 1.65rem !important; letter-spacing: 0 !important; }
     h3 { font-size: 1.1rem !important; letter-spacing: 0 !important; }
-    .hero { padding: .8rem 0 1.6rem; max-width: 860px; }
-    .eyebrow { color: #a95e49; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
-    .hero-copy { color: var(--muted); font-size: 1.08rem; max-width: 650px; line-height: 1.6; }
-    .section-kicker { color: #a95e49; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
-    .module-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-height: 118px; box-shadow: 0 12px 30px rgba(64,59,53,.07); }
+    .hero { padding: 1rem 0 1.6rem; max-width: 920px; }
+    .eyebrow { color: #D8FF51; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: .78rem; }
+    .hero-copy { color: #DCE4DF; font-size: 1.08rem; max-width: 650px; line-height: 1.6; }
+    .section-kicker { color: #FF7757; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
+    .module-card { background: #DCE4DF; color: #101723; border: 1px solid rgba(246,241,231,.18); border-radius: 1.2rem; padding: 1rem; min-height: 118px; box-shadow: 0 14px 32px rgba(0,0,0,.18); }
     .module-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin-bottom: .35rem; }
-    .module-card span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
-    .panel { background: rgba(255,255,255,.75); border: 1px solid var(--line); padding: 1.25rem; border-radius: 10px; box-shadow: 0 14px 34px rgba(20,33,61,.06); }
-    .metric { background: #87966F; color: #FFFFFF; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(64,59,53,.12); }
-    .metric span { color: #F5F0E6; font-size: .78rem; }
+    .module-card span { color: #43515A; font-size: .86rem; line-height: 1.4; }
+    .panel { background: #DCE4DF; border: 1px solid rgba(16,23,35,.14); padding: 1.25rem; border-radius: 1.2rem; box-shadow: 0 14px 34px rgba(0,0,0,.16); }
+    .metric { background: #D8FF51; color: #101723; padding: 1rem 1.1rem; border-radius: 1rem; box-shadow: 0 10px 22px rgba(216,255,81,.12); }
+    .metric span { color: #101723; font-size: .78rem; }
     .metric strong { font-size: 1.8rem; display: block; }
-    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; border-color: #D8CBB8; color: #403B35; background: #AFAF91; }
+    .stButton > button, .stDownloadButton > button { border-radius: 999px; font-weight: 700; min-height: 2.7rem; border-color: #D8FF51; color: #101723; background: #D8FF51; }
     [data-testid="stSidebar"] .stButton > button { text-align: left; padding-left: .9rem; }
-    [data-testid="stForm"] { background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem; }
-    [data-testid="stExpander"] { border-color: var(--line); background: #FFFFFF; }
+    [data-testid="stForm"] { background: #F6F1E7; border: 1px solid rgba(16,23,35,.14); border-radius: 1rem; padding: 1.2rem; }
+    [data-testid="stExpander"] { border-color: rgba(246,241,231,.18); background: #172130; }
     [data-testid="stSidebar"] h3 { margin-top: .45rem; }
 </style>
 """, unsafe_allow_html=True)
@@ -72,7 +72,7 @@ elif "mode" not in st.session_state:
     st.session_state.mode = "Build resume"
 appearance = "Pathway"
 
-st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>Pathway AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>Pathway AI</h1><p class="hero-copy">One focused path from first draft to interview-ready confidence.</p></div>', unsafe_allow_html=True)
 
 workflow_cards = [
     ("Build resume", "01  Build", "Create a resume from your story."),
@@ -112,25 +112,25 @@ with st.sidebar:
         st.warning("Demo mode: add OPENAI_API_KEY to .env")
 
 theme_css = """
-:root { --ink: #403B35; --muted: #766D64; --surface: #FFFFFF; --surface-2: #FFFFFF; --line: #D8CBB8; --accent: #B98276; --primary: #87966F; --secondary: #AFAF91; }
-.stApp { background: #F5F0E6; }
+:root { --ink: #F6F1E7; --muted: #DCE4DF; --surface: #172130; --surface-2: #223044; --line: rgba(246,241,231,.18); --accent: #FF7757; --primary: #D8FF51; }
+.stApp { background: #101723; }
 """
 
 st.markdown(f"""
 <style>
     {theme_css}
     html, body, [class*="css"] {{ color: var(--ink); }}
-    [data-testid="stSidebar"] {{ background: #FFFFFF; }}
+    [data-testid="stSidebar"] {{ background: #101723; }}
     [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {{ color: var(--ink) !important; }}
     [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{ background: var(--surface-2); color: var(--ink); border-color: var(--line); }}
     [data-testid="stMarkdownContainer"] p, [data-testid="stCaptionContainer"] {{ color: var(--muted); }}
     h1, h2, h3, h4, [data-testid="stHeader"] {{ color: var(--ink) !important; }}
     [data-testid="stWidgetLabel"] p, [data-testid="stWidgetLabel"] label {{ color: var(--ink) !important; }}
     [data-testid="stTextInput"] input::placeholder, [data-testid="stTextArea"] textarea::placeholder {{ color: var(--muted) !important; opacity: .8; }}
-    [data-testid="stSidebar"] .stButton > button {{ color: #403B35 !important; background: #AFAF91 !important; border-color: #D8CBB8 !important; }}
-    [data-testid="stSidebar"] .stButton > button[kind="primary"] {{ color: #FFFFFF !important; background: #87966F !important; border-color: #87966F !important; }}
-    .panel {{ background: #FFFFFF; border-color: #D8CBB8; }}
-    .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ background: #FFFFFF; border-color: #D8CBB8; }}
+    [data-testid="stSidebar"] .stButton > button {{ color: #101723 !important; background: #DCE4DF !important; border-color: rgba(246,241,231,.18) !important; }}
+    [data-testid="stSidebar"] .stButton > button[kind="primary"] {{ color: #101723 !important; background: #D8FF51 !important; border-color: #D8FF51 !important; }}
+    .panel {{ background: #DCE4DF; border-color: rgba(16,23,35,.14); }}
+    .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ border-color: rgba(246,241,231,.18); }}
     .hero-copy, .module-card span {{ color: var(--muted); }}
     .eyebrow {{ color: var(--accent); }}
 </style>
