@@ -8,6 +8,8 @@ The resume builder includes three selectable export styles inspired by the suppl
 - **Modern Timeline:** blue accent hierarchy and a more visual professional layout.
 - **Bold Minimal:** stronger typography and compact profile-led sections.
 
+The application writer also accepts a company name and generates a cover letter, recruiter message, LinkedIn message, and self-introduction. Mock interviews support Behavioral, Technical, HR, and Project-based modes.
+
 ## Run on Windows
 
 Open PowerShell in this folder and run:

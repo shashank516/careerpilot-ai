@@ -227,6 +227,7 @@ elif mode == "Application writer":
     st.markdown('<div class="section-kicker">03 / Apply</div>', unsafe_allow_html=True)
     st.subheader("Create an application that sounds like you")
     resume_text = st.text_area("Resume details", value=json.dumps(st.session_state.resume or {}, indent=2), height=240)
+    company = st.text_input("Company", placeholder="Example Company")
     job = st.text_area("Job description", height=180)
     tone = st.selectbox("Tone", ["Professional", "Warm and confident", "Concise"])
     if st.button("Generate application pack", type="primary"):
@@ -234,7 +235,7 @@ elif mode == "Application writer":
             st.warning("Paste a job description first.")
         else:
             with st.spinner("Writing a tailored application..."):
-                st.session_state.application = generate_application(resume_text, job, tone)
+                st.session_state.application = generate_application(resume_text, job, company, tone)
     if "application" in st.session_state:
         st.markdown('<div class="section-kicker">Output / Application pack</div>', unsafe_allow_html=True)
         st.json(st.session_state.application)
@@ -244,6 +245,7 @@ else:
     st.subheader("Practice the conversation, not a script")
     role = st.text_input("Interview role", value="Junior Data Analyst")
     difficulty = st.select_slider("Difficulty", options=["Starter", "Standard", "Challenging"], value="Standard")
+    interview_mode = st.selectbox("Interview mode", ["Behavioral", "Technical", "HR", "Project-based"])
     st.info(st.session_state.interview["question"])
     answer = st.text_area("Your answer", height=160, placeholder="Type your answer as if you were speaking to the interviewer.")
     if st.button("Submit answer", type="primary"):
@@ -251,7 +253,7 @@ else:
             st.warning("Write an answer first.")
         else:
             with st.spinner("Reviewing your answer..."):
-                feedback = interview_feedback(role, difficulty, st.session_state.interview["question"], answer)
+                feedback = interview_feedback(role, difficulty, interview_mode, st.session_state.interview["question"], answer)
             st.session_state.interview["answers"].append({"question": st.session_state.interview["question"], "answer": answer, "feedback": feedback})
             st.session_state.interview["question"] = feedback.get("next_question", "What would you contribute in your first 90 days?")
             st.rerun()

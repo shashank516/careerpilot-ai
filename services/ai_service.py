@@ -74,13 +74,13 @@ def analyze_resume(resume_text: str, job_description: str) -> dict[str, Any]:
     return _ask(instruction, f"RESUME:\n{resume_text}\n\nJOB:\n{job_description}", fallback)
 
 
-def generate_application(resume: str, job: str, tone: str) -> dict[str, Any]:
-    fallback = {"cover_letter": "Dear Hiring Manager,\n\nI am excited to apply for this opportunity. My background and projects align with the role's requirements, and I would welcome the chance to discuss how I can contribute.\n\nSincerely,\nYour Name", "recruiter_message": "Hello, I am interested in the role and believe my experience aligns with the team’s needs. I would be glad to connect.", "tell_me_about_yourself": "I am a motivated professional building experience in this field through hands-on projects and continuous learning."}
-    instruction = "Create a truthful application pack using only supplied resume facts. Return JSON with cover_letter, recruiter_message, tell_me_about_yourself. Do not invent achievements. Tone: " + tone
-    return _ask(instruction, f"RESUME:\n{resume}\n\nJOB:\n{job}", fallback)
+def generate_application(resume: str, job: str, company: str, tone: str) -> dict[str, Any]:
+    fallback = {"cover_letter": "Dear Hiring Manager,\n\nI am excited to apply for this opportunity. My background and projects align with the role's requirements, and I would welcome the chance to discuss how I can contribute.\n\nSincerely,\nYour Name", "recruiter_message": "Hello, I am interested in the role and believe my experience aligns with the team's needs. I would be glad to connect.", "linkedin_message": f"Hello, I am interested in opportunities at {company or 'your company'} and would be glad to connect.", "tell_me_about_yourself": "I am a motivated professional building experience in this field through hands-on projects and continuous learning."}
+    instruction = "Create a truthful application pack using only supplied resume facts. Return JSON with cover_letter, recruiter_message, linkedin_message, tell_me_about_yourself. Use the company name only where provided. Do not invent achievements. Tone: " + tone
+    return _ask(instruction, f"RESUME:\n{resume}\n\nCOMPANY:\n{company}\n\nJOB:\n{job}", fallback)
 
 
-def interview_feedback(role: str, difficulty: str, question: str, answer: str) -> dict[str, Any]:
+def interview_feedback(role: str, difficulty: str, interview_mode: str, question: str, answer: str) -> dict[str, Any]:
     fallback = {"overall_score": 70, "relevance": 75, "clarity": 70, "strengths": ["You addressed the question directly."], "improvements": ["Add a specific example and measurable result.", "Use a clear Situation, Task, Action, Result structure."], "next_question": f"What is one challenge you faced while preparing for a {role} role, and how did you handle it?"}
-    instruction = "You are a supportive but rigorous interview coach. Return JSON with overall_score, relevance, clarity, strengths, improvements, star_feedback, next_question. Score only the answer provided and do not invent facts."
-    return _ask(instruction, json.dumps({"role": role, "difficulty": difficulty, "question": question, "answer": answer}), fallback)
+    instruction = "You are a supportive but rigorous interview coach. The interview mode is " + interview_mode + ". Return JSON with overall_score, relevance, clarity, strengths, improvements, star_feedback, next_question. Score only the answer provided and do not invent facts."
+    return _ask(instruction, json.dumps({"role": role, "difficulty": difficulty, "interview_mode": interview_mode, "question": question, "answer": answer}), fallback)
