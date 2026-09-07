@@ -117,6 +117,11 @@ st.markdown(f"""
     [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {{ color: var(--ink) !important; }}
     [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{ background: var(--surface-2); color: var(--ink); border-color: var(--line); }}
     [data-testid="stMarkdownContainer"] p, [data-testid="stCaptionContainer"] {{ color: var(--muted); }}
+    h1, h2, h3, h4, [data-testid="stHeader"] {{ color: var(--ink) !important; }}
+    [data-testid="stWidgetLabel"] p, [data-testid="stWidgetLabel"] label {{ color: var(--ink) !important; }}
+    [data-testid="stTextInput"] input::placeholder, [data-testid="stTextArea"] textarea::placeholder {{ color: var(--muted) !important; opacity: .8; }}
+    [data-testid="stSidebar"] .stButton > button {{ color: var(--ink) !important; background: var(--surface-2) !important; }}
+    [data-testid="stSidebar"] .stButton > button[kind="primary"] {{ color: #ffffff !important; background: #b86f57 !important; }}
     .panel {{ background: var(--surface); border-color: var(--line); }}
     .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ background: var(--surface); border-color: var(--line); }}
     .hero-copy, .module-card span {{ color: var(--muted); }}
