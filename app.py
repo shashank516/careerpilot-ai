@@ -74,7 +74,8 @@ for column, title, detail in zip(card_cols, ["Build", "Match", "Apply", "Practic
 with st.sidebar:
     st.markdown("### CareerPilot AI")
     st.caption("A focused workspace for your next opportunity.")
-    appearance = st.radio("Appearance", ["System", "Light", "Dark"], horizontal=True, key="appearance")
+    with st.expander("Appearance", expanded=False):
+        appearance = st.selectbox("Theme", ["Light", "System", "Dark"], index=0, key="appearance")
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
     workflows = [
         ("Build resume", "01  Build your story"),
