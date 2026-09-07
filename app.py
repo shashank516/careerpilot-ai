@@ -74,8 +74,10 @@ for column, title, detail in zip(card_cols, ["Build", "Match", "Apply", "Practic
 with st.sidebar:
     st.markdown("### CareerPilot AI")
     st.caption("A focused workspace for your next opportunity.")
+    if st.session_state.get("appearance") not in {"System", "Dark"}:
+        st.session_state.appearance = "System"
     with st.expander("Appearance", expanded=False):
-        appearance = st.selectbox("Theme", ["Light", "System", "Dark"], index=0, key="appearance")
+        appearance = st.selectbox("Theme", ["System", "Dark"], index=0, key="appearance")
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
     workflows = [
         ("Build resume", "01  Build your story"),
@@ -101,19 +103,10 @@ if appearance == "Dark":
     :root { --ink: #f4f7fb; --muted: #b7c3d4; --surface: #172338; --surface-2: #22314b; --line: #3b4b64; --accent: #ff9b70; }
     .stApp { background: linear-gradient(135deg, #101927 0%, #18283a 52%, #302b35 100%); }
     """
-elif appearance == "Light":
-    theme_css = """
-    :root { --ink: #263747; --muted: #687785; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,55,71,.15); --accent: #a95e49; }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
-    """
 else:
     theme_css = """
     :root { --ink: #263747; --muted: #687785; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,55,71,.15); --accent: #a95e49; }
     .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
-    @media (prefers-color-scheme: dark) {
-        :root { --ink: #f4f1eb; --muted: #c3ccd4; --surface: rgba(36,49,62,.92); --surface-2: #334e64; --line: #536879; --accent: #e0a184; }
-        .stApp { background: linear-gradient(135deg, #202b34 0%, #2d4050 52%, #493b39 100%); }
-    }
     """
 
 st.markdown(f"""
