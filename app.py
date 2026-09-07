@@ -10,7 +10,7 @@ from services.document_parser import extract_text
 from services.resume_export import resume_to_pdf
 
 load_dotenv(dotenv_path=".env")
-st.set_page_config(page_title="CareerPilot AI", page_icon="CP", layout="wide")
+st.set_page_config(page_title="Pathway AI", page_icon="PA", layout="wide")
 
 TEMPLATES = ["Classic ATS", "Modern Timeline", "Bold Minimal"]
 WORKFLOWS = {"Build resume", "Analyze & match", "Application writer", "Mock interview"}
@@ -35,9 +35,9 @@ def ai_configured() -> bool:
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
-    :root { --ink: #263747; --coral: #b86f57; --mint: #dce8f0; --paper: #f5eee4; --line: rgba(38,55,71,.14); --muted: #687785; }
+    :root { --ink: #403B35; --coral: #B98276; --mint: #E5DCCB; --paper: #F5F0E6; --line: #D8CBB8; --muted: #766D64; --primary: #87966F; --secondary: #AFAF91; }
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
+    .stApp { background: #F5F0E6; }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
     h1 { font-size: clamp(2.5rem, 5vw, 4.6rem) !important; line-height: .98 !important; letter-spacing: 0 !important; margin: .25rem 0 .75rem !important; }
     h2 { font-size: 1.65rem !important; letter-spacing: 0 !important; }
@@ -46,17 +46,17 @@ st.markdown("""
     .eyebrow { color: #a95e49; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
     .hero-copy { color: var(--muted); font-size: 1.08rem; max-width: 650px; line-height: 1.6; }
     .section-kicker { color: #a95e49; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
-    .module-card { background: rgba(255,255,255,.64); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-height: 118px; box-shadow: 0 12px 30px rgba(20,33,61,.05); }
+    .module-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-height: 118px; box-shadow: 0 12px 30px rgba(64,59,53,.07); }
     .module-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin-bottom: .35rem; }
     .module-card span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
     .panel { background: rgba(255,255,255,.75); border: 1px solid var(--line); padding: 1.25rem; border-radius: 10px; box-shadow: 0 14px 34px rgba(20,33,61,.06); }
-    .metric { background: #334e64; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(38,55,71,.12); }
-    .metric span { color: #dce8f0; font-size: .78rem; }
+    .metric { background: #87966F; color: #FFFFFF; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(64,59,53,.12); }
+    .metric span { color: #F5F0E6; font-size: .78rem; }
     .metric strong { font-size: 1.8rem; display: block; }
-    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; border-color: rgba(38,53,47,.16); }
+    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; border-color: #D8CBB8; color: #403B35; background: #AFAF91; }
     [data-testid="stSidebar"] .stButton > button { text-align: left; padding-left: .9rem; }
-    [data-testid="stForm"] { background: rgba(255,255,255,.48); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem; }
-    [data-testid="stExpander"] { border-color: var(--line); background: rgba(255,255,255,.38); }
+    [data-testid="stForm"] { background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem; }
+    [data-testid="stExpander"] { border-color: var(--line); background: #FFFFFF; }
     [data-testid="stSidebar"] h3 { margin-top: .45rem; }
 </style>
 """, unsafe_allow_html=True)
@@ -70,9 +70,9 @@ if saved_mode in WORKFLOWS:
     st.session_state.mode = saved_mode
 elif "mode" not in st.session_state:
     st.session_state.mode = "Build resume"
-appearance = "Dark"
+appearance = "Pathway"
 
-st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>Pathway AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
 
 workflow_cards = [
     ("Build resume", "01  Build", "Create a resume from your story."),
@@ -90,7 +90,7 @@ for column, (workflow, title, detail) in zip(card_cols, workflow_cards):
             st.rerun()
 
 with st.sidebar:
-    st.markdown("### CareerPilot AI")
+    st.markdown("### Pathway AI")
     st.caption("A focused workspace for your next opportunity.")
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
     workflows = [
@@ -111,32 +111,26 @@ with st.sidebar:
     else:
         st.warning("Demo mode: add OPENAI_API_KEY to .env")
 
-if appearance == "Dark":
-    theme_css = """
-    :root { --ink: #f4f7fb; --muted: #b7c3d4; --surface: #172338; --surface-2: #22314b; --line: #3b4b64; --accent: #ff9b70; }
-    .stApp { background: linear-gradient(135deg, #101927 0%, #18283a 52%, #302b35 100%); }
-    """
-else:
-    theme_css = """
-    :root { --ink: #263747; --muted: #687785; --surface: rgba(255,252,246,.84); --surface-2: #fffdf9; --line: rgba(38,55,71,.15); --accent: #a95e49; }
-    .stApp { background: linear-gradient(135deg, #f5eee4 0%, #e9f0f5 54%, #f1e5dc 100%); }
-    """
+theme_css = """
+:root { --ink: #403B35; --muted: #766D64; --surface: #FFFFFF; --surface-2: #FFFFFF; --line: #D8CBB8; --accent: #B98276; --primary: #87966F; --secondary: #AFAF91; }
+.stApp { background: #F5F0E6; }
+"""
 
 st.markdown(f"""
 <style>
     {theme_css}
     html, body, [class*="css"] {{ color: var(--ink); }}
-    [data-testid="stSidebar"] {{ background: var(--surface); }}
+    [data-testid="stSidebar"] {{ background: #FFFFFF; }}
     [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {{ color: var(--ink) !important; }}
     [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{ background: var(--surface-2); color: var(--ink); border-color: var(--line); }}
     [data-testid="stMarkdownContainer"] p, [data-testid="stCaptionContainer"] {{ color: var(--muted); }}
     h1, h2, h3, h4, [data-testid="stHeader"] {{ color: var(--ink) !important; }}
     [data-testid="stWidgetLabel"] p, [data-testid="stWidgetLabel"] label {{ color: var(--ink) !important; }}
     [data-testid="stTextInput"] input::placeholder, [data-testid="stTextArea"] textarea::placeholder {{ color: var(--muted) !important; opacity: .8; }}
-    [data-testid="stSidebar"] .stButton > button {{ color: var(--ink) !important; background: var(--surface-2) !important; }}
-    [data-testid="stSidebar"] .stButton > button[kind="primary"] {{ color: #ffffff !important; background: #b86f57 !important; }}
-    .panel {{ background: var(--surface); border-color: var(--line); }}
-    .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ background: var(--surface); border-color: var(--line); }}
+    [data-testid="stSidebar"] .stButton > button {{ color: #403B35 !important; background: #AFAF91 !important; border-color: #D8CBB8 !important; }}
+    [data-testid="stSidebar"] .stButton > button[kind="primary"] {{ color: #FFFFFF !important; background: #87966F !important; border-color: #87966F !important; }}
+    .panel {{ background: #FFFFFF; border-color: #D8CBB8; }}
+    .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ background: #FFFFFF; border-color: #D8CBB8; }}
     .hero-copy, .module-card span {{ color: var(--muted); }}
     .eyebrow {{ color: var(--accent); }}
 </style>
@@ -166,7 +160,7 @@ def collect_profile() -> dict[str, Any]:
 if mode == "Build resume":
     st.markdown('<div class="section-kicker">01 / Create</div>', unsafe_allow_html=True)
     st.subheader("Build from your story")
-    st.write("Give CareerPilot your real details. It will structure and polish them without inventing experience.")
+    st.write("Give Pathway AI your real details. It will structure and polish them without inventing experience.")
     template = st.selectbox(
         "Choose a resume style",
         TEMPLATES,
@@ -199,7 +193,7 @@ if mode == "Build resume":
             with st.expander("View structured data"):
                 st.json(resume)
             pdf = export_resume(resume, template)
-            st.download_button("Download styled PDF resume", data=pdf, file_name=f"careerpilot_{template.lower().replace(' ', '_')}.pdf", mime="application/pdf", type="primary", use_container_width=True)
+            st.download_button("Download styled PDF resume", data=pdf, file_name=f"pathway_{template.lower().replace(' ', '_')}.pdf", mime="application/pdf", type="primary", use_container_width=True)
 
 elif mode == "Analyze & match":
     st.markdown('<div class="section-kicker">02 / Compare</div>', unsafe_allow_html=True)

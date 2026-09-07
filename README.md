@@ -1,6 +1,6 @@
-# CareerPilot AI
+# Pathway AI
 
-CareerPilot AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
+Pathway AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
 
 The resume builder includes three selectable export styles inspired by the supplied references:
 
