@@ -2,6 +2,12 @@
 
 CareerPilot AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
 
+The resume builder includes three selectable export styles inspired by the supplied references:
+
+- **Classic ATS:** clean section rules and conservative formatting for online applications.
+- **Modern Timeline:** blue accent hierarchy and a more visual professional layout.
+- **Bold Minimal:** stronger typography and compact profile-led sections.
+
 ## Run on Windows
 
 Open PowerShell in this folder and run:
