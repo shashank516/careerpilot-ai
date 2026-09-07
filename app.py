@@ -149,7 +149,10 @@ if mode == "Build resume":
             for heading, content in [("Skills", resume.get("skills")), ("Experience", resume.get("experience")), ("Projects", resume.get("projects")), ("Education", resume.get("education"))]:
                 if content:
                     st.markdown(f"**{heading}**")
-                    st.write(", ".join(content) if isinstance(content, list) else content)
+                    if isinstance(content, list):
+                        st.write(", ".join(str(item) for item in content))
+                    else:
+                        st.write(str(content))
         with data:
             st.markdown('<div class="section-kicker">Review</div>', unsafe_allow_html=True)
             st.caption("Review every AI suggestion before using it in an application.")
