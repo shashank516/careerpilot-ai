@@ -24,17 +24,28 @@ def ai_configured() -> bool:
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
-    :root { --ink: #14213d; --coral: #ef8354; --mint: #d9f0e3; --paper: #fffdf7; }
+    :root { --ink: #14213d; --coral: #ef8354; --mint: #d9f0e3; --paper: #fffdf7; --line: rgba(20,33,61,.12); --muted: #627086; }
     html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; color: var(--ink); }
     .stApp { background: linear-gradient(135deg, #fffdf7 0%, #eef7f2 52%, #f9e9dc 100%); }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
-    h1 { font-size: 3.4rem !important; letter-spacing: 0 !important; }
-    .hero { padding: 1rem 0 1.4rem; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4.6rem) !important; line-height: .98 !important; letter-spacing: 0 !important; margin: .25rem 0 .75rem !important; }
+    h2 { font-size: 1.65rem !important; letter-spacing: 0 !important; }
+    h3 { font-size: 1.1rem !important; letter-spacing: 0 !important; }
+    .hero { padding: .8rem 0 1.6rem; max-width: 860px; }
     .eyebrow { color: #c8562b; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
-    .panel { background: rgba(255,255,255,.75); border: 1px solid rgba(20,33,61,.12); padding: 1.2rem; border-radius: 8px; }
-    .metric { background: #14213d; color: white; padding: 1rem; border-radius: 8px; }
+    .hero-copy { color: var(--muted); font-size: 1.08rem; max-width: 650px; line-height: 1.6; }
+    .section-kicker { color: #c8562b; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 1.2rem 0 .35rem; }
+    .module-card { background: rgba(255,255,255,.64); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; min-height: 118px; box-shadow: 0 12px 30px rgba(20,33,61,.05); }
+    .module-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin-bottom: .35rem; }
+    .module-card span { color: var(--muted); font-size: .86rem; line-height: 1.4; }
+    .panel { background: rgba(255,255,255,.75); border: 1px solid var(--line); padding: 1.25rem; border-radius: 10px; box-shadow: 0 14px 34px rgba(20,33,61,.06); }
+    .metric { background: #14213d; color: white; padding: 1rem 1.1rem; border-radius: 10px; box-shadow: 0 10px 22px rgba(20,33,61,.12); }
+    .metric span { color: #b8c7d9; font-size: .78rem; }
     .metric strong { font-size: 1.8rem; display: block; }
-    .stButton > button { border-radius: 6px; font-weight: 700; }
+    .stButton > button, .stDownloadButton > button { border-radius: 7px; font-weight: 700; min-height: 2.7rem; }
+    [data-testid="stForm"] { background: rgba(255,255,255,.48); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem; }
+    [data-testid="stExpander"] { border-color: var(--line); background: rgba(255,255,255,.38); }
+    [data-testid="stSidebar"] h3 { margin-top: .45rem; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -43,13 +54,18 @@ if "resume" not in st.session_state:
 if "interview" not in st.session_state:
     st.session_state.interview = {"question": "Tell me about yourself and the work you are most proud of.", "answers": []}
 
-st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p>Turn your real experience into a sharper resume, a stronger application, and interview confidence.</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>Make your next move<br>feel more prepared.</h1><p class="hero-copy">CareerPilot turns your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
+
+card_cols = st.columns(4)
+for column, title, detail in zip(card_cols, ["Build", "Match", "Apply", "Practice"], ["Create a resume from your story.", "Find gaps against a real role.", "Write a focused application pack.", "Train with role-specific questions."]):
+    column.markdown(f'<div class="module-card"><strong>{title}</strong><span>{detail}</span></div>', unsafe_allow_html=True)
 
 with st.sidebar:
-    st.markdown("### Your workspace")
-    st.caption("Build from facts. Improve with evidence. Practice with purpose.")
+    st.markdown("### CareerPilot AI")
+    st.caption("A focused workspace for your next opportunity.")
     appearance = st.radio("Appearance", ["System", "Light", "Dark"], horizontal=True, key="appearance")
-    mode = st.radio("Go to", ["Build resume", "Analyze & match", "Application writer", "Mock interview"])
+    st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
+    mode = st.radio("Choose a workflow", ["Build resume", "Analyze & match", "Application writer", "Mock interview"], label_visibility="collapsed")
     st.divider()
     if ai_configured():
         st.success("Live AI mode enabled")
@@ -85,6 +101,8 @@ st.markdown(f"""
     [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{ background: var(--surface-2); color: var(--ink); border-color: var(--line); }}
     [data-testid="stMarkdownContainer"] p, [data-testid="stCaptionContainer"] {{ color: var(--muted); }}
     .panel {{ background: var(--surface); border-color: var(--line); }}
+    .module-card, [data-testid="stForm"], [data-testid="stExpander"] {{ background: var(--surface); border-color: var(--line); }}
+    .hero-copy, .module-card span {{ color: var(--muted); }}
     .eyebrow {{ color: var(--accent); }}
 </style>
 """, unsafe_allow_html=True)
@@ -111,6 +129,7 @@ def collect_profile() -> dict[str, Any]:
 
 
 if mode == "Build resume":
+    st.markdown('<div class="section-kicker">01 / Create</div>', unsafe_allow_html=True)
     st.subheader("Build from your story")
     st.write("Give CareerPilot your real details. It will structure and polish them without inventing experience.")
     profile, submitted = collect_profile()
@@ -120,13 +139,27 @@ if mode == "Build resume":
     if st.session_state.resume:
         resume = st.session_state.resume
         st.divider()
-        st.subheader("Your draft")
-        st.caption("Review every AI suggestion before using it in an application.")
-        st.json(resume)
-        pdf = resume_to_pdf(resume)
-        st.download_button("Download PDF resume", data=pdf, file_name="careerpilot_resume.pdf", mime="application/pdf", type="primary")
+        preview, data = st.columns([1.25, .75])
+        with preview:
+            st.markdown('<div class="section-kicker">Output / Draft resume</div>', unsafe_allow_html=True)
+            st.markdown(f"### {resume.get('name', 'Your Name')}")
+            st.caption(resume.get("contact", "Add your contact details"))
+            st.markdown(f"**{resume.get('target_role', 'Target role')}**")
+            st.write(resume.get("summary", "No summary generated yet."))
+            for heading, content in [("Skills", resume.get("skills")), ("Experience", resume.get("experience")), ("Projects", resume.get("projects")), ("Education", resume.get("education"))]:
+                if content:
+                    st.markdown(f"**{heading}**")
+                    st.write(", ".join(content) if isinstance(content, list) else content)
+        with data:
+            st.markdown('<div class="section-kicker">Review</div>', unsafe_allow_html=True)
+            st.caption("Review every AI suggestion before using it in an application.")
+            with st.expander("View structured data"):
+                st.json(resume)
+            pdf = resume_to_pdf(resume)
+            st.download_button("Download PDF resume", data=pdf, file_name="careerpilot_resume.pdf", mime="application/pdf", type="primary", use_container_width=True)
 
 elif mode == "Analyze & match":
+    st.markdown('<div class="section-kicker">02 / Compare</div>', unsafe_allow_html=True)
     st.subheader("Analyze a resume against a real role")
     uploaded = st.file_uploader("Upload PDF or DOCX resume", type=["pdf", "docx"])
     job = st.text_area("Paste the job description", height=220, placeholder="Responsibilities, required skills, qualifications...")
@@ -144,9 +177,11 @@ elif mode == "Analyze & match":
         for col, (label, value) in zip(cols, [("Overall match", result.get("match_score", 0)), ("ATS readiness", result.get("ats_score", 0)), ("Evidence strength", result.get("evidence_score", 0))]):
             col.markdown(f'<div class="metric"><span>{label}</span><strong>{value}/100</strong></div>', unsafe_allow_html=True)
         st.write("")
-        st.json(result)
+        with st.expander("View full analysis", expanded=True):
+            st.json(result)
 
 elif mode == "Application writer":
+    st.markdown('<div class="section-kicker">03 / Apply</div>', unsafe_allow_html=True)
     st.subheader("Create an application that sounds like you")
     resume_text = st.text_area("Resume details", value=json.dumps(st.session_state.resume or {}, indent=2), height=240)
     job = st.text_area("Job description", height=180)
@@ -158,9 +193,11 @@ elif mode == "Application writer":
             with st.spinner("Writing a tailored application..."):
                 st.session_state.application = generate_application(resume_text, job, tone)
     if "application" in st.session_state:
+        st.markdown('<div class="section-kicker">Output / Application pack</div>', unsafe_allow_html=True)
         st.json(st.session_state.application)
 
 else:
+    st.markdown('<div class="section-kicker">04 / Practice</div>', unsafe_allow_html=True)
     st.subheader("Practice the conversation, not a script")
     role = st.text_input("Interview role", value="Junior Data Analyst")
     difficulty = st.select_slider("Difficulty", options=["Starter", "Standard", "Challenging"], value="Standard")
@@ -176,5 +213,5 @@ else:
             st.session_state.interview["question"] = feedback.get("next_question", "What would you contribute in your first 90 days?")
             st.rerun()
     if st.session_state.interview["answers"]:
-        st.subheader("Latest feedback")
+        st.markdown('<div class="section-kicker">Output / Coach notes</div>', unsafe_allow_html=True)
         st.json(st.session_state.interview["answers"][-1]["feedback"])
