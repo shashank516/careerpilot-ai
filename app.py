@@ -64,12 +64,24 @@ if "resume" not in st.session_state:
     st.session_state.resume = None
 if "interview" not in st.session_state:
     st.session_state.interview = {"question": "Tell me about yourself and the work you are most proud of.", "answers": []}
+if "mode" not in st.session_state:
+    st.session_state.mode = "Build resume"
 
 st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
 
+workflow_cards = [
+    ("Build resume", "01  Build", "Create a resume from your story."),
+    ("Analyze & match", "02  Match", "Find gaps against a real role."),
+    ("Application writer", "03  Apply", "Write a focused application pack."),
+    ("Mock interview", "04  Practice", "Train with role-specific questions."),
+]
 card_cols = st.columns(4)
-for column, title, detail in zip(card_cols, ["Build", "Match", "Apply", "Practice"], ["Create a resume from your story.", "Find gaps against a real role.", "Write a focused application pack.", "Train with role-specific questions."]):
-    column.markdown(f'<div class="module-card"><strong>{title}</strong><span>{detail}</span></div>', unsafe_allow_html=True)
+for column, (workflow, title, detail) in zip(card_cols, workflow_cards):
+    with column:
+        st.markdown(f'<div class="module-card"><strong>{title}</strong><span>{detail}</span></div>', unsafe_allow_html=True)
+        if st.button(f"Open {title.split('  ', 1)[-1]}", key=f"hero_{workflow}", use_container_width=True, type="primary" if st.session_state.mode == workflow else "secondary"):
+            st.session_state.mode = workflow
+            st.rerun()
 
 with st.sidebar:
     st.markdown("### CareerPilot AI")
@@ -85,8 +97,6 @@ with st.sidebar:
         ("Application writer", "03  Write an application"),
         ("Mock interview", "04  Practice answers"),
     ]
-    if "mode" not in st.session_state:
-        st.session_state.mode = "Build resume"
     for workflow, button_label in workflows:
         if st.button(button_label, key=f"nav_{workflow}", type="primary" if st.session_state.mode == workflow else "secondary", use_container_width=True):
             st.session_state.mode = workflow
