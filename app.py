@@ -13,6 +13,8 @@ load_dotenv(dotenv_path=".env")
 st.set_page_config(page_title="CareerPilot AI", page_icon="CP", layout="wide")
 
 TEMPLATES = ["Classic ATS", "Modern Timeline", "Bold Minimal"]
+WORKFLOWS = {"Build resume", "Analyze & match", "Application writer", "Mock interview"}
+APPEARANCES = {"System", "Dark"}
 
 
 def export_resume(resume: dict, template: str) -> bytes:
@@ -64,8 +66,16 @@ if "resume" not in st.session_state:
     st.session_state.resume = None
 if "interview" not in st.session_state:
     st.session_state.interview = {"question": "Tell me about yourself and the work you are most proud of.", "answers": []}
-if "mode" not in st.session_state:
+saved_mode = st.query_params.get("mode", "Build resume")
+saved_appearance = st.query_params.get("appearance", "System")
+if saved_mode in WORKFLOWS:
+    st.session_state.mode = saved_mode
+elif "mode" not in st.session_state:
     st.session_state.mode = "Build resume"
+if saved_appearance in APPEARANCES:
+    st.session_state.appearance = saved_appearance
+elif st.session_state.get("appearance") not in APPEARANCES:
+    st.session_state.appearance = "System"
 
 st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
 
@@ -81,15 +91,15 @@ for column, (workflow, title, detail) in zip(card_cols, workflow_cards):
         st.markdown(f'<div class="module-card"><strong>{title}</strong><span>{detail}</span></div>', unsafe_allow_html=True)
         if st.button(f"Open {title.split('  ', 1)[-1]}", key=f"hero_{workflow}", use_container_width=True, type="primary" if st.session_state.mode == workflow else "secondary"):
             st.session_state.mode = workflow
+            st.query_params["mode"] = workflow
             st.rerun()
 
 with st.sidebar:
     st.markdown("### CareerPilot AI")
     st.caption("A focused workspace for your next opportunity.")
-    if st.session_state.get("appearance") not in {"System", "Dark"}:
-        st.session_state.appearance = "System"
     with st.expander("Appearance", expanded=False):
         appearance = st.selectbox("Theme", ["System", "Dark"], index=0, key="appearance")
+        st.query_params["appearance"] = appearance
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
     workflows = [
         ("Build resume", "01  Build your story"),
@@ -100,6 +110,7 @@ with st.sidebar:
     for workflow, button_label in workflows:
         if st.button(button_label, key=f"nav_{workflow}", type="primary" if st.session_state.mode == workflow else "secondary", use_container_width=True):
             st.session_state.mode = workflow
+            st.query_params["mode"] = workflow
             st.rerun()
     mode = st.session_state.mode
     st.divider()
