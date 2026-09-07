@@ -14,7 +14,6 @@ st.set_page_config(page_title="CareerPilot AI", page_icon="CP", layout="wide")
 
 TEMPLATES = ["Classic ATS", "Modern Timeline", "Bold Minimal"]
 WORKFLOWS = {"Build resume", "Analyze & match", "Application writer", "Mock interview"}
-APPEARANCES = {"System", "Dark"}
 
 
 def export_resume(resume: dict, template: str) -> bytes:
@@ -67,15 +66,11 @@ if "resume" not in st.session_state:
 if "interview" not in st.session_state:
     st.session_state.interview = {"question": "Tell me about yourself and the work you are most proud of.", "answers": []}
 saved_mode = st.query_params.get("mode", "Build resume")
-saved_appearance = st.query_params.get("appearance", "System")
 if saved_mode in WORKFLOWS:
     st.session_state.mode = saved_mode
 elif "mode" not in st.session_state:
     st.session_state.mode = "Build resume"
-if saved_appearance in APPEARANCES:
-    st.session_state.appearance = saved_appearance
-elif st.session_state.get("appearance") not in APPEARANCES:
-    st.session_state.appearance = "System"
+appearance = "Dark"
 
 st.markdown('<div class="hero"><div class="eyebrow">Generative career studio</div><h1>CareerPilot AI</h1><p class="hero-copy">Make your next move feel more prepared. Turn your real experience into a sharper resume, a tailored application, and interview practice that gets better with every answer.</p></div>', unsafe_allow_html=True)
 
@@ -97,9 +92,6 @@ for column, (workflow, title, detail) in zip(card_cols, workflow_cards):
 with st.sidebar:
     st.markdown("### CareerPilot AI")
     st.caption("A focused workspace for your next opportunity.")
-    with st.expander("Appearance", expanded=False):
-        appearance = st.selectbox("Theme", ["System", "Dark"], index=0, key="appearance")
-        st.query_params["appearance"] = appearance
     st.markdown("<div class='section-kicker'>Workspace</div>", unsafe_allow_html=True)
     workflows = [
         ("Build resume", "01  Build your story"),
