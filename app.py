@@ -7,10 +7,20 @@ from dotenv import load_dotenv
 
 from services.ai_service import analyze_resume, build_resume, generate_application, interview_feedback
 from services.document_parser import extract_text
-from services.resume_export import TEMPLATES, resume_to_pdf
+from services.resume_export import resume_to_pdf
 
 load_dotenv(dotenv_path=".env")
 st.set_page_config(page_title="CareerPilot AI", page_icon="CP", layout="wide")
+
+TEMPLATES = ["Classic ATS", "Modern Timeline", "Bold Minimal"]
+
+
+def export_resume(resume: dict, template: str) -> bytes:
+    """Keep deployments compatible while Cloud refreshes older module caches."""
+    try:
+        return resume_to_pdf(resume, template)
+    except TypeError:
+        return resume_to_pdf(resume)
 
 
 def ai_configured() -> bool:
@@ -163,7 +173,7 @@ if mode == "Build resume":
             st.caption("Review every AI suggestion before using it in an application.")
             with st.expander("View structured data"):
                 st.json(resume)
-            pdf = resume_to_pdf(resume, template)
+            pdf = export_resume(resume, template)
             st.download_button("Download styled PDF resume", data=pdf, file_name=f"careerpilot_{template.lower().replace(' ', '_')}.pdf", mime="application/pdf", type="primary", use_container_width=True)
 
 elif mode == "Analyze & match":
