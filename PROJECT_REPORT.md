@@ -1,4 +1,4 @@
-# Pathway AI
+# CareerCanvas AI
 ## An Intelligent Resume and Interview Coaching Platform
 
 **Project Type:** Generative Artificial Intelligence Application  
@@ -9,7 +9,7 @@
 
 ## 1. Abstract
 
-Pathway AI is a Generative AI-based career development platform designed to help students and job seekers prepare for employment. The application creates professional resumes from user-provided information, analyzes existing PDF and DOCX resumes, compares resumes with job descriptions, generates tailored application content, and provides personalized mock interview feedback.
+CareerCanvas AI is a Generative AI-based career development platform designed to help students and job seekers prepare for employment. The application creates professional resumes from user-provided information, analyzes existing PDF and DOCX resumes, compares resumes with job descriptions, generates tailored application content, and provides personalized mock interview feedback.
 
 The system uses an OpenAI-compatible language model interface to understand user information and generate structured career content. It also includes a demo fallback mode, allowing the core interface to operate without an API key. The application is designed with a truthfulness rule: generated content must use only information supplied by the user and must not invent employers, skills, achievements, dates, or performance metrics.
 

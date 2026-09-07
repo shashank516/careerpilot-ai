@@ -1,6 +1,6 @@
-# Pathway AI
+# CareerCanvas AI
 
-Pathway AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
+CareerCanvas AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
 
 The resume builder includes three selectable export styles inspired by the supplied references:
 
