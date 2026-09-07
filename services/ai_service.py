@@ -32,16 +32,26 @@ def _ask(instruction: str, payload: str, fallback: dict[str, Any]) -> dict[str, 
     if not client:
         return fallback
     api_key = _setting("GROQ_API_KEY") or _setting("OPENAI_API_KEY")
-    model = _setting("GROQ_MODEL") or (
-        "llama-3.3-70b-versatile" if api_key.startswith("gsk_") else _setting("OPENAI_MODEL") or "gpt-4o-mini"
-    )
-    response = client.chat.completions.create(
-        model=model,
-        temperature=0.2,
-        response_format={"type": "json_object"},
-        messages=[{"role": "system", "content": instruction}, {"role": "user", "content": payload}],
-    )
-    return json.loads(response.choices[0].message.content)
+    if api_key.startswith("gsk_"):
+        configured_model = _setting("GROQ_MODEL")
+        models = [configured_model] if configured_model else []
+        models.extend(["llama-3.3-70b-versatile", "openai/gpt-oss-20b"])
+    else:
+        models = [_setting("OPENAI_MODEL") or "gpt-4o-mini"]
+
+    for model in dict.fromkeys(models):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                temperature=0.2,
+                response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": instruction}, {"role": "user", "content": payload}],
+            )
+            return json.loads(response.choices[0].message.content)
+        except Exception as error:
+            if "not found" not in str(error).lower() and "model" not in str(error).lower():
+                break
+    return fallback
 
 
 def build_resume(profile: dict[str, Any]) -> dict[str, Any]:
