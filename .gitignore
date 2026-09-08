@@ -1,3 +1,10 @@
+# Local SQLite user data must not be committed to the repository.
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Local secrets and Python runtime cache files.
 .env
-.venv/
 __pycache__/
+**/__pycache__/
+*.py[cod]

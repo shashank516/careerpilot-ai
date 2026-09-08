@@ -1,0 +1,25 @@
+# A single light theme prevents browser/system dark-mode settings from changing
+# text colors behind the custom Pathway AI interface.
+[theme]
+base = "light"
+primaryColor = "#5B5CE2"
+backgroundColor = "#F6F7FB"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#18213D"
+linkColor = "#4B4DCC"
+codeTextColor = "#18213D"
+codeBackgroundColor = "#F0F1F7"
+borderColor = "#DDE2F1"
+baseRadius = "large"
+buttonRadius = "medium"
+showWidgetBorder = true
+showSidebarBorder = true
+font = "sans-serif"
+headingFont = "sans-serif"
+linkUnderline = false
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F1F7"
+textColor = "#18213D"
+borderColor = "#DDE2F1"
