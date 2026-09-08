@@ -1,9 +1,11 @@
+"""PDF export service for the three Pathway AI resume templates."""
+
 import json
 from io import BytesIO
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import LETTER
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -14,6 +16,7 @@ TEMPLATES = ["Classic ATS", "Modern Timeline", "Bold Minimal"]
 
 
 def _text(value: object) -> str:
+    """Convert supported resume values into safe display text."""
     if isinstance(value, list):
         return "\n".join(_text(item) for item in value)
     if isinstance(value, dict):
@@ -22,16 +25,19 @@ def _text(value: object) -> str:
 
 
 def _paragraph(value: object, style: ParagraphStyle) -> Paragraph:
+    """Create an escaped ReportLab paragraph."""
     return Paragraph(escape(_text(value)).replace("\n", "<br/>"), style)
 
 
 def _bullets(value: object, style: ParagraphStyle) -> list[Paragraph]:
+    """Format list values as bullet paragraphs and strings as normal paragraphs."""
     if isinstance(value, list):
         return [Paragraph(f"&#8226;&nbsp; {escape(_text(item))}", style) for item in value if _text(item)]
     return [_paragraph(value, style)] if _text(value) else []
 
 
 def _section(story: list, title: str, value: object, styles: dict, accent: colors.Color) -> None:
+    """Append a titled resume section only when it has content."""
     if not _text(value):
         return
     story.append(Paragraph(title.upper(), styles["section"]))
@@ -41,6 +47,7 @@ def _section(story: list, title: str, value: object, styles: dict, accent: color
 
 
 def resume_to_pdf(resume: dict, template: str = "Classic ATS") -> bytes:
+    """Create a PDF byte string from structured resume data."""
     output = BytesIO()
     document = SimpleDocTemplate(output, pagesize=LETTER, rightMargin=.62 * inch, leftMargin=.62 * inch, topMargin=.5 * inch, bottomMargin=.5 * inch)
     base = getSampleStyleSheet()

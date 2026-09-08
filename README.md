@@ -1,25 +1,36 @@
-# CareerCanvas AI
+# Pathway AI
 
-CareerCanvas AI is a Streamlit GenAI career studio for creating resumes, matching them to jobs, writing applications, and practicing interviews.
+Pathway AI is a Streamlit career workspace that helps users build resumes, compare them with job descriptions, create applications, and practise interviews.
 
-The resume builder includes three selectable export styles inspired by the supplied references:
+## Features
 
-- **Classic ATS:** clean section rules and conservative formatting for online applications.
-- **Modern Timeline:** blue accent hierarchy and a more visual professional layout.
-- **Bold Minimal:** stronger typography and compact profile-led sections.
+- Secure signup and login with salted password hashes
+- User-specific SQLite storage for generated resumes
+- AI-assisted resume generation with three PDF styles
+- PDF/DOCX resume analysis against a job description
+- Tailored cover letter, recruiter message, LinkedIn message, and introduction
+- Role-specific mock interview feedback
+- Demo fallback when no AI key is configured
 
-The application writer also accepts a company name and generates a cover letter, recruiter message, LinkedIn message, and self-introduction. Mock interviews support Behavioral, Technical, HR, and Project-based modes.
+## Project structure
 
-## Run on Windows
-
-Open PowerShell in this folder and run:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-streamlit run app.py
+```text
+careerpilot-ai/
+├── app.py                  # Streamlit user interface
+├── backend/                # Authentication and SQLite storage
+│   ├── auth_service.py
+│   ├── database.py
+│   └── resume_service.py
+├── services/               # AI, parsing, and PDF-export services
+│   ├── ai_service.py
+│   ├── document_parser.py
+│   └── resume_export.py
+├── .streamlit/config.toml  # Fixed light theme
+├── requirements.txt
+└── PROJECT_REPORT.md
 ```
 
-If the virtual environment does not exist yet:
+## Run locally
 
 ```powershell
 python -m venv .venv
@@ -28,13 +39,32 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app works in demo mode without an API key. To enable live AI responses locally, create `.env` and add a newly created Groq key:
+Open `http://localhost:8501` in your browser.
+
+## Configure AI
+
+Create a local `.env` file. It is ignored by Git and must never be uploaded.
 
 ```env
-GROQ_API_KEY=your_groq_key_here
+GROQ_API_KEY=your_key_here
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
-For Streamlit Cloud, add the same values under the app's **Settings -> Secrets**. Do not upload `.env`.
+You can alternatively use `OPENAI_API_KEY` and, optionally, `OPENAI_MODEL`.
 
-Never commit `.env` or place a real API key in `.env.example`.
+Without a key, the app continues in demo mode with fallback responses.
+
+## Deploy to Streamlit Community Cloud
+
+1. Push the repository to GitHub.
+2. In Community Cloud, select repository `shashank516/careerpilot-ai`, branch `main`, and entrypoint `app.py`.
+3. Add the AI key in **App settings → Secrets**.
+4. Deploy.
+
+SQLite is suitable for local development and demonstrations. Use a managed database such as PostgreSQL or Supabase for permanent cloud user data.
+
+## Security notes
+
+- Passwords are stored as salted PBKDF2 hashes, never plain text.
+- Every saved resume is linked to its owner and retrieved with a user-ID check.
+- `.env` and local SQLite database files are excluded by `.gitignore`.

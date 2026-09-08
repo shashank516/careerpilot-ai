@@ -1,19 +1,19 @@
-# CareerCanvas AI
+# Pathway AI
 ## An Intelligent Resume and Interview Coaching Platform
 
 **Project Type:** Generative Artificial Intelligence Application  
-**Technology:** Python, Streamlit, OpenAI-compatible LLM API  
+**Technology:** Python, Streamlit, SQLite, OpenAI-compatible LLM API
 **Repository:** https://github.com/shashank516/careerpilot-ai
 
 ---
 
 ## 1. Abstract
 
-CareerCanvas AI is a Generative AI-based career development platform designed to help students and job seekers prepare for employment. The application creates professional resumes from user-provided information, analyzes existing PDF and DOCX resumes, compares resumes with job descriptions, generates tailored application content, and provides personalized mock interview feedback.
+Pathway AI is a Generative AI-based career development platform designed to help students and job seekers prepare for employment. The application creates professional resumes from user-provided information, analyzes existing PDF and DOCX resumes, compares resumes with job descriptions, generates tailored application content, and provides personalized mock interview feedback.
 
 The system uses an OpenAI-compatible language model interface to understand user information and generate structured career content. It also includes a demo fallback mode, allowing the core interface to operate without an API key. The application is designed with a truthfulness rule: generated content must use only information supplied by the user and must not invent employers, skills, achievements, dates, or performance metrics.
 
-CareerPilot AI combines resume creation, resume evaluation, job matching, application writing, and interview practice in one platform. This creates a complete career preparation workflow rather than a basic chatbot or isolated resume generator.
+Pathway AI combines resume creation, resume evaluation, job matching, application writing, and interview practice in one platform. This creates a complete career preparation workflow rather than a basic chatbot or isolated resume generator.
 
 **Keywords:** Generative AI, resume builder, ATS analysis, job matching, interview coaching, natural language processing, Streamlit.
 
@@ -23,7 +23,7 @@ CareerPilot AI combines resume creation, resume evaluation, job matching, applic
 
 A resume is often the first document reviewed by an employer or an Applicant Tracking System (ATS). Many students and job seekers find it difficult to describe their skills, present projects professionally, identify missing job requirements, and prepare for interviews. Existing tools frequently provide only one service, such as resume templates or grammar correction.
 
-CareerPilot AI addresses this problem by providing multiple connected services in one application. A user can enter personal and professional details, generate a resume, compare it with a target job, create an application pack, and practice interview answers based on the selected role.
+Pathway AI addresses this problem by providing multiple connected services in one application. A user can enter personal and professional details, generate a resume, compare it with a target job, create an application pack, and practice interview answers based on the selected role.
 
 The project demonstrates how Generative AI can be applied to a practical career-support problem while keeping the user in control of final content.
 
@@ -48,14 +48,15 @@ There is a need for one accessible system that helps users create, improve, and 
 
 ## 4. Proposed Solution
 
-CareerPilot AI provides a unified web application with four major workflows:
+Pathway AI provides a unified web application with five major workflows:
 
 1. **Build Resume:** Collect user information and generate a structured professional resume.
 2. **Analyze and Match:** Read an existing resume and compare it with a job description.
 3. **Write Application:** Generate a cover letter, recruiter message, and self-introduction.
 4. **Practice Interview:** Ask role-specific questions and evaluate the user's answers.
+5. **My Resumes:** Securely save, review, and download resumes for the signed-in user.
 
-The application is implemented as a Streamlit interface. An AI service handles generation and analysis. Document parsing services extract text from PDF and DOCX files, while a PDF export service creates a downloadable resume.
+The application is implemented as a Streamlit interface. A separate backend package handles SQLite user accounts and saved resumes. An AI service handles generation and analysis, document parsing services extract text from PDF and DOCX files, and a PDF export service creates downloadable resumes.
 
 ---
 
@@ -95,13 +96,13 @@ The application is implemented as a Streamlit interface. An AI service handles g
 - Cover-letter generation
 - Recruiter-message generation
 - Mock interview questions and feedback
-- System and dark appearance modes
+- Secure account signup and login
+- SQLite-backed saved resumes
 - Demo mode without a configured AI key
 
 ### Future Scope
 
-- User authentication
-- Database-backed profiles
+- Application-pack and interview-history storage
 - Multiple resume templates
 - DOCX export
 - Voice interview mode
@@ -235,6 +236,7 @@ The project includes the following controls:
 | python-docx | DOCX text extraction |
 | ReportLab | PDF resume generation |
 | python-dotenv | Local environment configuration |
+| SQLite | Local user-account and resume storage |
 | Git and GitHub | Version control and project hosting |
 | HTML and CSS | Custom interface styling |
 
@@ -252,6 +254,12 @@ careerpilot-ai/
 |-- .env.example
 |-- .gitignore
 |
+|-- backend/
+    |-- __init__.py
+    |-- auth_service.py
+    |-- database.py
+    |-- resume_service.py
+|
 |-- services/
     |-- __init__.py
     |-- ai_service.py
@@ -261,13 +269,15 @@ careerpilot-ai/
 
 ### File Responsibilities
 
-- `app.py`: Streamlit interface, navigation, forms, upload controls, appearance control, and session state.
+- `app.py`: Streamlit interface, navigation, forms, upload controls, and session state.
+- `backend/auth_service.py`: Signup, login, validation, and secure password hashing.
+- `backend/database.py`: SQLite connection and table creation.
+- `backend/resume_service.py`: User-scoped saved-resume storage and retrieval.
 - `services/ai_service.py`: AI client setup, resume generation, resume analysis, application generation, and interview feedback.
 - `services/document_parser.py`: PDF and DOCX text extraction.
 - `services/resume_export.py`: PDF resume generation.
 - `requirements.txt`: Python dependencies.
-- `.env.example`: Safe configuration template without a real credential.
-- `.gitignore`: Prevents `.env`, `.venv`, and cache files from being uploaded.
+- `.gitignore`: Prevents secrets, local database files, and cache files from being uploaded.
 - `README.md`: Installation and usage instructions.
 
 ---
@@ -449,7 +459,7 @@ Choose a module
 - AI quality depends on the selected model and the quality of user input.
 - Keyword overlap does not fully represent semantic job suitability.
 - ATS scoring is an estimate and not a guarantee of recruiter behavior.
-- The current MVP does not include persistent user accounts or database storage.
+- SQLite is local storage; a managed cloud database is needed for permanent production deployment.
 - The current interview mode is text-based.
 - PDF generation uses a simple template and does not yet provide a template selector.
 - API usage may require an external provider account and can incur usage costs.
@@ -459,8 +469,8 @@ Choose a module
 
 ## 18. Future Enhancements
 
-1. Add login and user profiles.
-2. Store resumes, applications, and interview history in SQLite or PostgreSQL.
+1. Store applications and interview history alongside saved resumes.
+2. Migrate SQLite storage to PostgreSQL or Supabase for production deployment.
 3. Add multiple ATS-friendly and modern resume templates.
 4. Add DOCX resume export.
 5. Add voice-based interviews using speech-to-text.
@@ -487,9 +497,9 @@ Choose a module
 
 ## 20. Conclusion
 
-CareerPilot AI demonstrates how Generative AI can support the complete early-career preparation process. Instead of focusing on one isolated task, the system connects resume creation, resume analysis, job matching, application writing, and mock interviewing.
+Pathway AI demonstrates how Generative AI can support the complete early-career preparation process. Instead of focusing on one isolated task, the system connects resume creation, resume analysis, job matching, application writing, and mock interviewing.
 
-The project is practical, extensible, and suitable for students and job seekers. Its modular architecture makes it possible to add authentication, persistence, voice interaction, learning roadmaps, and advanced analytics in future versions. The truthfulness constraints and secret-management practices also make the system more responsible and suitable for real-world experimentation.
+The project is practical, extensible, and suitable for students and job seekers. Its modular architecture already includes authentication and local persistence, while leaving space for voice interaction, learning roadmaps, and advanced analytics. The truthfulness constraints and secret-management practices also make it more responsible and suitable for real-world experimentation.
 
 ---
 
@@ -505,7 +515,7 @@ Streamlit provides the interactive web interface using Python. It allows rapid d
 
 ### Q3. What is an ATS?
 
-An Applicant Tracking System is software used by employers to filter, organize, and search job applications. CareerPilot AI checks for simple ATS-related issues such as relevant keywords and readable section structure.
+An Applicant Tracking System is software used by employers to filter, organize, and search job applications. Pathway AI checks for simple ATS-related issues such as relevant keywords and readable section structure.
 
 ### Q4. Can the AI invent achievements?
 
@@ -529,11 +539,11 @@ STAR means Situation, Task, Action, and Result. It is a structure for answering 
 
 ### Q9. What are the main limitations?
 
-The project does not guarantee hiring outcomes, uses estimated matching scores, depends on model quality, and currently lacks persistent accounts and voice analysis.
+The project does not guarantee hiring outcomes, uses estimated matching scores, depends on model quality, and currently uses local SQLite storage and text-only interview practice.
 
 ### Q10. How can the project be improved?
 
-Future versions can add authentication, databases, multiple templates, voice interviews, skill-roadmap generation, progress tracking, and multilingual support.
+Future versions can add cloud database storage, voice interviews, skill-roadmap generation, progress tracking, and multilingual support.
 
 ---
 
